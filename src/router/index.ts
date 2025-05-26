@@ -1,0 +1,87 @@
+import {createRouter,createWebHistory} from 'vue-router'
+import { showToast } from 'vant'
+
+const router=createRouter({
+    history:createWebHistory(),
+    routes:[
+        {
+            path:'/home',
+            component:()=>import('../pages/home/Home.vue')
+        },
+        {
+            path:'/cart',
+            component:()=>import('../pages/cart/Cart.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/order',
+            component:()=>import('../pages/order/Order.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/mine',
+            component:()=>import('../pages/mine/Mine.vue')
+        },
+        {
+            path:'/',
+            redirect:'/home'
+        },
+        {
+            path:"/store",
+            component:()=>import("../pages/store/Store.vue")
+        },
+        {
+            path:'/createorder',
+            component:()=>import("../pages/createorder/Createorder.vue"),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/address',
+            component:()=>import('../pages/address/Address.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/addressedit',
+            component:()=>import('../pages/addressedit/AddressEdit.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/userinfoedit',
+            component:()=>import('../pages/userinfoedit/userInfoEdit.vue'),
+            meta:{
+                isAuth:true
+            }
+        },
+        {
+            path:'/login',
+            component:()=>import('../pages/login/Login.vue')
+        },
+        {
+            path:'/register',
+            component:()=>import('../pages/register/Register.vue')
+        }
+    ]
+})
+router.beforeEach((to,from,next)=>{
+    if(to.meta.isAuth){
+        if(localStorage.isLogin==='login'){
+            next()
+        }else{
+            next('/login')
+        }
+    }else{
+        next()
+    }
+})
+
+export default router
